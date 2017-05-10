@@ -1,0 +1,61 @@
+{
+     "builders": [
+       {
+        "type": "qemu",
+        "guest_os_type":"linux",
+        "communicator": "ssh",
+        "ssh_pty": "true",
+        "iso_url" : "<isoname>.iso",
+        "iso_checksum" : "<checksum>",
+        "iso_checksum_type":"md5",
+        "ssh_username": "root",
+        "ssh_password": "<password>",
+        "boot_wait": "5s",
+        "headless": "true",
+        "ssh_file_transfer_method":"scp",
+ 
+         "boot_command": [ "<boot_command_if_any>", "<enter>",
+                         "<wait10>","<wait10>","<wait10>","<wait10>","<tab>","<tab>","<tab>","<tab>","<enter>",
+                          "<wait8m30s>", "<enter>"
+                  ],
+          "format": "qcow2",
+          "boot_wait": "20s",
+          "disk_interface": "ide",
+          "disk_size":"60000",
+          "ssh_timeout":"10m",
+          "vnc_disable_password": "true",
+          "vnc_port_max":"5907",
+          "vnc_port_min":"5907" ,
+          "net_device" : "virtio-net-pci",
+          "qemu_binary" : "/usr/libexec/qemu-kvm",
+             
+          "qemuargs": [
+                     [ "-m", "2048M" ],
+                     [ "-device", "virtio-net-pci,netdev=mynet0,mac=52:54:00:12:34:56," ],
+                     [ "-netdev", "user,id=mynet0,hostfwd=tcp::2222-:22," ]
+          ],
+          
+          "output_directory":"/var/tmp/NMS-kvm/",
+          "vm_name":"NMS_API",
+          "shutdown_command": "shutdown -P now "
+      }
+   ],
+
+  "provisioners": [
+                      {
+                     "type":"file",
+                     "source":"<file_source>",
+                      "destination":"<destination in the machine being created>"
+                      },
+                      
+                      {
+                       "type":"shell"
+                       "script":"script.sh"
+                      },
+                      
+                      {
+                       "type":"shell",
+                       "inline":["echo 'Done....' "]
+                      }
+            ]
+  }
