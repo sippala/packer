@@ -4,7 +4,7 @@ wget -P /usr/local/packer -nd -r -l1 --no-parent -A "r1*.iso" "http://<path to i
 #this is to download only a required iso file starting with r1... from a directory that has multiple iso files
 
 iso="$(ls -t | grep "r1*" | head -n1 )"
-#if there are multiple r1.iso files tehn select the latest file 
+#if there are multiple r1.iso files then select the latest file 
 
 echo $iso
 
